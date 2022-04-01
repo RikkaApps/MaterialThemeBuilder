@@ -17,7 +17,7 @@ Replace all the `<version>` below with the version shows here.
            mavenCentral()
        }
        dependencies {
-           classpath 'dev.rikka.tools.materialthemebuilder:dev.rikka.tools.materialthemebuilder.gradle.plugin:<version>'
+           classpath 'dev.rikka.tools.materialthemebuilder:gradle-plugin:<version>'
        }
    }
    ```

@@ -16,13 +16,7 @@ sourceSets {
         java {
             srcDir("$rootDir/material-color-utilities/java")
         }
-        java.sourceDirectories.files += File("$rootDir/material-color-utilities/java")
     }
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
 }
 
 gradlePlugin {
@@ -40,6 +34,8 @@ afterEvaluate {
     publishing {
         publications {
             named("pluginMaven", MavenPublication::class) {
+                artifactId = "gradle-plugin"
+
                 artifact(tasks["sourcesJar"])
                 artifact(tasks["javadocJar"])
             }

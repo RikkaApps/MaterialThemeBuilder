@@ -4,7 +4,6 @@ import com.android.build.gradle.AppExtension;
 import com.android.build.gradle.BaseExtension;
 import com.android.build.gradle.LibraryExtension;
 import com.android.build.gradle.api.BaseVariant;
-import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
@@ -35,18 +34,19 @@ public class MaterialThemeBuilderPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-        var baseExtension = project.getExtensions().findByType(BaseExtension.class);
-        if (baseExtension == null) throw new GradleException("Android extension not found");
+        project.getPlugins().withId("com.android.base", (plugin) -> {
+            var extension = project.getExtensions().create(
+                    MaterialThemeBuilderExtension.class, "materialThemeBuilder", MaterialThemeBuilderExtension.class);
 
-        var extension = project.getExtensions().create(
-                MaterialThemeBuilderExtension.class, "materialThemeBuilder", MaterialThemeBuilderExtension.class, project);
+            var baseExtension = project.getExtensions().getByType(BaseExtension.class);
 
-        if (baseExtension instanceof AppExtension) {
-            ((AppExtension) baseExtension).getApplicationVariants().all(applicationVariant ->
-                    registerTask(applicationVariant, project, extension));
-        } else if (baseExtension instanceof LibraryExtension) {
-            ((LibraryExtension) baseExtension).getLibraryVariants().all(libraryVariant ->
-                    registerTask(libraryVariant, project, extension));
-        }
+            if (baseExtension instanceof AppExtension) {
+                ((AppExtension) baseExtension).getApplicationVariants().all(applicationVariant ->
+                        registerTask(applicationVariant, project, extension));
+            } else if (baseExtension instanceof LibraryExtension) {
+                ((LibraryExtension) baseExtension).getLibraryVariants().all(libraryVariant ->
+                        registerTask(libraryVariant, project, extension));
+            }
+        });
     }
 }

@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -332,13 +331,9 @@ public class GenerateResTask extends GenerateTask {
     }
 
     public void write() {
-        var colors = Optional.ofNullable(extension.getThemes()).orElse(new ArrayList<>());
-
         beginResource();
 
-        for (MaterialThemeBuilderExtension.Theme theme : colors) {
-            writeTheme(theme);
-        }
+        extension.getThemes().all(this::writeTheme);
 
         endResource();
     }
