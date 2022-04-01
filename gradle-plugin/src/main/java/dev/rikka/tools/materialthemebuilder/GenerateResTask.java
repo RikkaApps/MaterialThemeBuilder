@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Optional;
 
 public class GenerateResTask extends GenerateTask {
 
@@ -196,7 +198,7 @@ public class GenerateResTask extends GenerateTask {
         style("colorSurfaceInverse", String.format("md_theme_%s_light_inverseSurface", nameDecapitalized));
         style("colorPrimaryInverse", String.format("md_theme_%s_light_primaryInverse", nameDecapitalized));
 
-        if (extension.getGeneratePalette().get()) {
+        if (extension.isGeneratePalette()) {
             for (int tone : TONE_VALUES) {
                 style(String.format("palettePrimary%d", tone),
                         String.format("md_theme_%s_palette_primary_%d", nameDecapitalized, tone));
@@ -283,7 +285,7 @@ public class GenerateResTask extends GenerateTask {
 
     private void writeTheme(MaterialThemeBuilderExtension.Theme theme) {
         CorePalette corePalette = CorePalette.of(
-                Integer.parseInt(theme.getPrimaryColor().get().replaceFirst("#", ""), 16));
+                Integer.parseInt(theme.getPrimaryColor().replaceFirst("#", ""), 16));
 
         var primaryPalette = corePalette.a1;
         var secondaryPalette = corePalette.a2;
@@ -292,35 +294,35 @@ public class GenerateResTask extends GenerateTask {
         var neutralPalette = corePalette.n1;
         var neutralVariantPalette = corePalette.n1;
 
-        if (theme.getSecondaryColor().getOrNull() != null) {
+        if (theme.getSecondaryColor() != null) {
             secondaryPalette = CorePalette.of(
-                    Integer.parseInt(theme.getSecondaryColor().get().replaceFirst("#", ""), 16)).a1;
+                    Integer.parseInt(theme.getSecondaryColor().replaceFirst("#", ""), 16)).a1;
         }
 
-        if (theme.getTertiaryColor().getOrNull() != null) {
+        if (theme.getTertiaryColor() != null) {
             tertiaryPalette = CorePalette.of(
-                    Integer.parseInt(theme.getTertiaryColor().get().replaceFirst("#", ""), 16)).a1;
+                    Integer.parseInt(theme.getTertiaryColor().replaceFirst("#", ""), 16)).a1;
         }
 
-        if (theme.getNeutralColor().getOrNull() != null) {
+        if (theme.getNeutralColor() != null) {
             CorePalette palette = CorePalette.of(
-                    Integer.parseInt(theme.getNeutralColor().get().replaceFirst("#", ""), 16));
+                    Integer.parseInt(theme.getNeutralColor().replaceFirst("#", ""), 16));
             neutralPalette = palette.n1;
             neutralVariantPalette = palette.n2;
         }
-        
-        var name = theme.getName().getOrElse("");
-        var lightThemeNameFormat = theme.getLightThemeFormat().getOrElse("");
-        var darkThemeNameFormat = theme.getDarkThemeFormat().getOrElse("");
-        var parentLightThemeName = theme.getLightThemeParent().getOrElse("");
-        var parentDarkThemeName = theme.getDarkThemeParent().getOrElse("");
+
+        var name = Objects.requireNonNull(theme.getName(), "Name must not be null");
+        var lightThemeNameFormat = Optional.ofNullable(theme.getLightThemeFormat()).orElse("");
+        var darkThemeNameFormat = Optional.ofNullable(theme.getDarkThemeFormat()).orElse("");
+        var parentLightThemeName = Optional.ofNullable(theme.getLightThemeParent()).orElse("");
+        var parentDarkThemeName = Optional.ofNullable(theme.getDarkThemeParent()).orElse("");
 
         writeColorsForTheme(primaryPalette, secondaryPalette, tertiaryPalette, errorPalette, neutralPalette, neutralVariantPalette, name);
         writeStylesForTheme(name, lightThemeNameFormat, parentLightThemeName, darkThemeNameFormat, parentDarkThemeName);
     }
 
     public void write() {
-        var colors = extension.getThemes().getOrElse(new ArrayList<>());
+        var colors = Optional.ofNullable(extension.getThemes()).orElse(new ArrayList<>());
 
         beginResource();
 

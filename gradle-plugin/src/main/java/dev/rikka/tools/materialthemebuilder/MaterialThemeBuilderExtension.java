@@ -1,42 +1,131 @@
 package dev.rikka.tools.materialthemebuilder;
 
-import org.gradle.api.plugins.ExtensionAware;
-import org.gradle.api.provider.ListProperty;
-import org.gradle.api.provider.Property;
+import groovy.lang.Closure;
+import org.gradle.api.Project;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class MaterialThemeBuilderExtension {
 
-    public abstract ListProperty<Theme> getThemes();
+    private final Project project;
 
-    public abstract Property<Boolean> getGeneratePalette();
+    private final List<Theme> themes = new ArrayList<>();
 
-    public MaterialThemeBuilderExtension() {
-        getGeneratePalette().set(true);
+    public boolean generatePalette = false;
 
-        ((ExtensionAware) this).getExtensions().create("theme", Theme.class);
+    public MaterialThemeBuilderExtension(Project project) {
+        this.project = project;
     }
 
-    public abstract static class Theme {
+    public List<Theme> getThemes() {
+        return themes;
+    }
 
-        public abstract Property<String> getName();
+    private Theme configureAndAdd(Theme theme, Closure<Theme> configure) {
+        project.configure(theme, configure);
+        themes.add(theme);
+        return theme;
+    }
 
-        public abstract Property<String> getPrimaryColor();
+    public Theme theme(String name, Closure<Theme> configure) {
+        return configureAndAdd(new Theme(name), configure);
+    }
 
-        public abstract Property<String> getSecondaryColor();
+    public boolean isGeneratePalette() {
+        return generatePalette;
+    }
 
-        public abstract Property<String> getTertiaryColor();
+    public void setGeneratePalette(boolean generatePalette) {
+        this.generatePalette = generatePalette;
+    }
 
-        public abstract Property<String> getNeutralColor();
+    public static class Theme {
 
-        public abstract Property<String> getLightThemeFormat();
+        private String name;
+        private String primaryColor;
+        private String secondaryColor;
+        private String tertiaryColor;
+        private String neutralColor;
+        private String lightThemeFormat;
+        private String lightThemeParent;
+        private String darkThemeFormat;
+        private String darkThemeParent;
 
-        public abstract Property<String> getDarkThemeFormat();
+        public Theme(String name) {
+            this.name = name;
+        }
 
-        public abstract Property<String> getLightThemeParent();
+        public void setName(String name) {
+            this.name = name;
+        }
 
-        public abstract Property<String> getDarkThemeParent();
+        public String getName() {
+            return name;
+        }
 
-        public Theme() {
+        public String getPrimaryColor() {
+            return primaryColor;
+        }
+
+        public void setPrimaryColor(String primaryColor) {
+            this.primaryColor = primaryColor;
+        }
+
+        public String getSecondaryColor() {
+            return secondaryColor;
+        }
+
+        public void setSecondaryColor(String secondaryColor) {
+            this.secondaryColor = secondaryColor;
+        }
+
+        public String getTertiaryColor() {
+            return tertiaryColor;
+        }
+
+        public void setTertiaryColor(String tertiaryColor) {
+            this.tertiaryColor = tertiaryColor;
+        }
+
+        public String getNeutralColor() {
+            return neutralColor;
+        }
+
+        public void setNeutralColor(String neutralColor) {
+            this.neutralColor = neutralColor;
+        }
+
+        public String getLightThemeFormat() {
+            return lightThemeFormat;
+        }
+
+        public void setLightThemeFormat(String lightThemeFormat) {
+            this.lightThemeFormat = lightThemeFormat;
+        }
+
+        public String getLightThemeParent() {
+            return lightThemeParent;
+        }
+
+        public void setLightThemeParent(String lightThemeParent) {
+            this.lightThemeParent = lightThemeParent;
+        }
+
+        public String getDarkThemeFormat() {
+            return darkThemeFormat;
+        }
+
+        public void setDarkThemeFormat(String darkThemeFormat) {
+            this.darkThemeFormat = darkThemeFormat;
+        }
+
+        public String getDarkThemeParent() {
+            return darkThemeParent;
+        }
+
+        public void setDarkThemeParent(String darkThemeParent) {
+            this.darkThemeParent = darkThemeParent;
         }
 
         // TODO Extended colors

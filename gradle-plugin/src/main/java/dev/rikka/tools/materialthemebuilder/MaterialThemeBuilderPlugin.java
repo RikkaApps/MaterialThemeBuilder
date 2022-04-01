@@ -39,7 +39,7 @@ public class MaterialThemeBuilderPlugin implements Plugin<Project> {
         if (baseExtension == null) throw new GradleException("Android extension not found");
 
         var extension = project.getExtensions().create(
-                "materialThemeBuilder", MaterialThemeBuilderExtension.class);
+                MaterialThemeBuilderExtension.class, "materialThemeBuilder", MaterialThemeBuilderExtension.class, project);
 
         if (baseExtension instanceof AppExtension) {
             ((AppExtension) baseExtension).getApplicationVariants().all(applicationVariant ->
