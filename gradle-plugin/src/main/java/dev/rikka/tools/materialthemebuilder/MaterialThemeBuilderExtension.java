@@ -1,36 +1,12 @@
 package dev.rikka.tools.materialthemebuilder;
 
-import groovy.lang.Closure;
-import org.gradle.api.Project;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.gradle.api.Action;
+import org.gradle.api.NamedDomainObjectContainer;
 
 public abstract class MaterialThemeBuilderExtension {
-
-    private final Project project;
-
-    private final List<Theme> themes = new ArrayList<>();
-
     public boolean generatePalette = false;
 
-    public MaterialThemeBuilderExtension(Project project) {
-        this.project = project;
-    }
-
-    public List<Theme> getThemes() {
-        return themes;
-    }
-
-    private Theme configureAndAdd(Theme theme, Closure<Theme> configure) {
-        project.configure(theme, configure);
-        themes.add(theme);
-        return theme;
-    }
-
-    public Theme theme(String name, Closure<Theme> configure) {
-        return configureAndAdd(new Theme(name), configure);
-    }
+    public abstract NamedDomainObjectContainer<Theme> getThemes();
 
     public boolean isGeneratePalette() {
         return generatePalette;
@@ -40,9 +16,12 @@ public abstract class MaterialThemeBuilderExtension {
         this.generatePalette = generatePalette;
     }
 
-    public static class Theme {
+    public void themes(Action<NamedDomainObjectContainer<Theme>> container) {
+        container.execute(getThemes());
+    }
 
-        private String name;
+    public static class Theme {
+        private final String name;
         private String primaryColor;
         private String secondaryColor;
         private String tertiaryColor;
@@ -53,10 +32,6 @@ public abstract class MaterialThemeBuilderExtension {
         private String darkThemeParent;
 
         public Theme(String name) {
-            this.name = name;
-        }
-
-        public void setName(String name) {
             this.name = name;
         }
 
