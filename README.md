@@ -41,10 +41,8 @@ Replace all the `<version>` below with the version shows here.
    ```groovy
    materialThemeBuilder {
        // List of themes to generate
-       themes = [
-           theme {
-               name = "theme1"
-      
+       themes {
+           theme1 {
                // Primary color, acts as the source color
                primaryColor = "#3F51B5"
                
@@ -58,7 +56,7 @@ Replace all the `<version>` below with the version shows here.
                darkThemeFormat = "Theme.Material3.Dark.%s"
                darkThemeParent = "Theme.Material3.Dark.Rikka"
            }
-       ]
+       }
    
        // Add Material Design 3 color tokens (such as palettePrimary100) in generated theme
        // rikka.material >= 2.0.0 provides such attributes
