@@ -333,7 +333,7 @@ public class GenerateResTask extends GenerateTask {
     public void write() {
         beginResource();
 
-        extension.getThemes().all(this::writeTheme);
+        extension.getThemes().forEach(this::writeTheme);
 
         endResource();
     }
