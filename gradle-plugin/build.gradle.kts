@@ -8,6 +8,7 @@ plugins {
 dependencies {
     compileOnly(gradleApi())
     compileOnly(libs.android.gradle)
+    implementation("com.google.guava:guava:31.1-jre")
 }
 
 sourceSets {
