@@ -41,6 +41,7 @@ public abstract class MaterialThemeBuilderExtension {
         private String lightThemeParent;
         private String darkThemeFormat;
         private String darkThemeParent;
+        private boolean isDynamicColors;
 
         public Theme(String name) {
             this.name = name;
@@ -112,6 +113,14 @@ public abstract class MaterialThemeBuilderExtension {
 
         public void setDarkThemeParent(String darkThemeParent) {
             this.darkThemeParent = darkThemeParent;
+        }
+
+        public boolean isDynamicColors() {
+            return isDynamicColors;
+        }
+
+        public void setDynamicColors(boolean dynamicColors) {
+            isDynamicColors = dynamicColors;
         }
 
         // TODO Extended colors
