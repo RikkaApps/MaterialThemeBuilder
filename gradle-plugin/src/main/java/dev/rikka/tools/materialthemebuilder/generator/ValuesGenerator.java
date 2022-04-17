@@ -1,45 +1,29 @@
 package dev.rikka.tools.materialthemebuilder.generator;
 
+import com.google.common.base.CaseFormat;
+import dev.rikka.tools.materialthemebuilder.MaterialTheme;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 
-public abstract class BaseResGenerator {
+public abstract class ValuesGenerator extends XmlGenerator {
 
-    private final File file;
-    private PrintStream os;
-
-    public BaseResGenerator(File file) {
-        this.file = file;
+    public ValuesGenerator(File file) {
+        super(file);
     }
 
-    public final void generate() throws IOException {
-        createFile(file);
-        os = new PrintStream(file);
+    @Override
+    protected void startGenerate() {
         beginResource();
-        onGenerate();
-        endResource();
-        os.flush();
-        os.close();
     }
 
-    protected abstract void onGenerate();
-
-    protected final void createFile(File file) throws IOException {
-        if (!file.exists()) {
-            if (!file.getParentFile().exists()) {
-                if (!file.getParentFile().mkdirs()) {
-                    throw new IOException("Failed to create " + file.getParentFile());
-                }
-            }
-            if (!file.createNewFile()) {
-                throw new IOException("Failed to create " + file);
-            }
-        }
+    @Override
+    protected void endGenerate() {
+        endResource();
     }
 
     protected void beginResource() {
-        os.println("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
         os.println("<resources>");
     }
 
@@ -79,4 +63,16 @@ public abstract class BaseResGenerator {
         os.print(s);
     }
 
+    protected void textColorStyles() {
+        for (String textColor : MaterialTheme.TEXT_COLORS) {
+            for (String emphasis : MaterialTheme.TEXT_COLOR_EMPHASIS) {
+                String name = "text"
+                        + CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, textColor)
+                        + emphasis
+                        + ("".equals(emphasis) ? "" : "Emphasis");
+                String value = MaterialTheme.getColorStateListFilename(textColor, emphasis);
+                style(name, value);
+            }
+        }
+    }
 }

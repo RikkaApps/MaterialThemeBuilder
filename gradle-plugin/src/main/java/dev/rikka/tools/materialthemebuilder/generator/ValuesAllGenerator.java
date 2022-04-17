@@ -12,11 +12,11 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
-public class ResGenerator extends BaseResGenerator {
+public class ValuesAllGenerator extends ValuesGenerator {
 
     private final MaterialThemeBuilderExtension extension;
 
-    public ResGenerator(File file, MaterialThemeBuilderExtension extension) {
+    public ValuesAllGenerator(File file, MaterialThemeBuilderExtension extension) {
         super(file);
         this.extension = extension;
     }
@@ -26,7 +26,44 @@ public class ResGenerator extends BaseResGenerator {
         if (extension.isGeneratePaletteAttributes()) {
             writePaletteAttributes();
         }
+        if (extension.isGenerateTextColors()) {
+            writeTextColorsAttributes();
+        }
         extension.getThemes().forEach(this::writeTheme);
+    }
+
+    private void writeTextColorsAttributes() {
+        beginDeclareStyleable("MaterialTextColors");
+        String format = "color|reference";
+
+        for (String textColor : MaterialTheme.TEXT_COLORS) {
+            for (String emphasis : MaterialTheme.TEXT_COLOR_EMPHASIS) {
+                String name = "text"
+                        + CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, textColor)
+                        + emphasis
+                        + ("".equals(emphasis) ? "" : "Emphasis");
+
+                attr(name, format);
+            }
+        }
+
+        endDeclareStyleable();
+    }
+
+    private void writePaletteAttributes() {
+        beginDeclareStyleable("MaterialColorTokens");
+        String format = "color|reference";
+        String[] palettes = new String[]{
+                "Primary", "Secondary", "Tertiary", "Error", "Neutral", "NeutralVariant"
+        };
+
+        for (String palette : palettes) {
+            for (int tone : MaterialTheme.TONE_VALUES) {
+                attr(String.format(Locale.ROOT, "palette%s%d", palette, tone), format);
+            }
+        }
+
+        endDeclareStyleable();
     }
 
     private void writeColorsForTheme(
@@ -183,6 +220,9 @@ public class ResGenerator extends BaseResGenerator {
                         String.format("md_theme_%s_palette_neutral_variant_%d", nameLowerUnderScore, tone));
             }
         }
+        if (extension.isGenerateTextColors()) {
+            textColorStyles();
+        }
         endStyle();
 
         beginStyle(String.format(darkThemeNameFormat, nameUpperCamel), parentDarkThemeName);
@@ -238,6 +278,10 @@ public class ResGenerator extends BaseResGenerator {
                 style(String.format("paletteNeutralVariant%d", tone),
                         String.format("md_theme_%s_palette_neutral_variant_%d", nameLowerUnderScore, tone));
             }
+        }
+
+        if (extension.isGenerateTextColors()) {
+            textColorStyles();
         }
         endStyle();
     }
@@ -299,21 +343,5 @@ public class ResGenerator extends BaseResGenerator {
 
         writeColorsForTheme(nameLowerUnderScore, primaryPalette, secondaryPalette, tertiaryPalette, errorPalette, neutralPalette, neutralVariantPalette);
         writeStylesForTheme(nameLowerUnderScore, nameUpperCamel, lightThemeNameFormat, parentLightThemeName, darkThemeNameFormat, parentDarkThemeName);
-    }
-
-    private void writePaletteAttributes() {
-        beginDeclareStyleable("MaterialColorTokens");
-        String format = "color|reference";
-        String[] palettes = new String[]{
-                "Primary", "Secondary", "Tertiary", "Error", "Neutral", "NeutralVariant"
-        };
-
-        for (String palette : palettes) {
-            for (int tone : MaterialTheme.TONE_VALUES) {
-                attr(String.format(Locale.ROOT, "palette%s%d", palette, tone), format);
-            }
-        }
-
-        endDeclareStyleable();
     }
 }

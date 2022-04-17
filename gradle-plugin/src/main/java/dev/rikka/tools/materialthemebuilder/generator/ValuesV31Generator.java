@@ -1,6 +1,7 @@
 package dev.rikka.tools.materialthemebuilder.generator;
 
 import com.google.common.base.CaseFormat;
+import dev.rikka.tools.materialthemebuilder.MaterialTheme;
 import dev.rikka.tools.materialthemebuilder.MaterialThemeBuilderExtension;
 import dev.rikka.tools.materialthemebuilder.Util;
 
@@ -9,11 +10,11 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
-public class ResV31Generator extends BaseResGenerator {
+public class ValuesV31Generator extends ValuesGenerator {
 
     private final MaterialThemeBuilderExtension extension;
 
-    public ResV31Generator(File file, MaterialThemeBuilderExtension extension) {
+    public ValuesV31Generator(File file, MaterialThemeBuilderExtension extension) {
         super(file);
         this.extension = extension;
     }
@@ -138,6 +139,9 @@ public class ResV31Generator extends BaseResGenerator {
         if (extension.isGeneratePalette()) {
             print(s);
         }
+        if (extension.isGenerateTextColors()) {
+            textColorStyles();
+        }
         endStyle();
 
         beginStyle(String.format(darkThemeNameFormat, nameUpperCamel), parentDarkThemeName);
@@ -183,6 +187,9 @@ public class ResV31Generator extends BaseResGenerator {
         if (extension.isGeneratePalette()) {
             print(s);
         }
+        if (extension.isGenerateTextColors()) {
+            textColorStyles();
+        }
         endStyle();
     }
 
@@ -199,21 +206,14 @@ public class ResV31Generator extends BaseResGenerator {
         var parentDarkThemeName = Optional.ofNullable(theme.getDarkThemeParent()).orElse("");
 
         String nameUpperCamel;
-        String nameLowerUnderScore;
         var nameIsUnderScore = name.contains("_");
         if (nameIsUnderScore) {
             name = name.toLowerCase(Locale.ROOT);
             nameUpperCamel = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name);
-            nameLowerUnderScore = name;
         } else {
             nameUpperCamel = name;
-            nameLowerUnderScore = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name);
         }
 
         writeStylesForTheme(nameUpperCamel, lightThemeNameFormat, parentLightThemeName, darkThemeNameFormat, parentDarkThemeName);
-
-        /*if (theme.getPrimaryColor() != null) {
-            resGenerator.writeStylesForTheme(nameLowerUnderScore, nameUpperCamel, lightThemeNameFormat, parentLightThemeName, darkThemeNameFormat, parentDarkThemeName);
-        }*/
     }
 }

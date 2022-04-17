@@ -9,6 +9,8 @@ public abstract class MaterialThemeBuilderExtension {
 
     public boolean generatePaletteAttributes = false;
 
+    public boolean generateTextColors = false;
+
     public abstract NamedDomainObjectContainer<Theme> getThemes();
 
     public boolean isGeneratePalette() {
@@ -25,6 +27,14 @@ public abstract class MaterialThemeBuilderExtension {
 
     public void setGeneratePaletteAttributes(boolean generatePaletteAttributes) {
         this.generatePaletteAttributes = generatePaletteAttributes;
+    }
+
+    public boolean isGenerateTextColors() {
+        return generateTextColors;
+    }
+
+    public void setGenerateTextColors(boolean generateTextColors) {
+        this.generateTextColors = generateTextColors;
     }
 
     public void themes(Action<NamedDomainObjectContainer<Theme>> container) {
