@@ -53,7 +53,7 @@ public class ColorStateListGenerator extends XmlGenerator {
                 case "Medium":
                     return "@dimen/m3_emphasis_medium_disabled";
                 default:
-                    return "";
+                    return "@dimen/m3_emphasis_disabled";
             }
         }
     }

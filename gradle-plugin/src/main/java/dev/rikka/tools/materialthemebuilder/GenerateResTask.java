@@ -31,11 +31,11 @@ public class GenerateResTask extends DefaultTask {
         if (extension.isGenerateTextColors()) {
             for (String textColor : MaterialTheme.TEXT_COLORS) {
                 for (String emphasis : MaterialTheme.TEXT_COLOR_EMPHASIS) {
-                    String filename = "colors/"
+                    String filename = "color/"
                             + MaterialTheme.getColorStateListFilename(textColor, emphasis)
                             + ".xml";
                     colorStateListGenerators.add(
-                            new ColorStateListGenerator(new File(dir, filename), textColor, emphasis));
+                            new ColorStateListGenerator(new File(dir, filename), "?" + textColor, emphasis));
                 }
             }
         }
