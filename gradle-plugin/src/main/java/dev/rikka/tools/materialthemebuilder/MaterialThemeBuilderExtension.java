@@ -4,7 +4,10 @@ import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectContainer;
 
 public abstract class MaterialThemeBuilderExtension {
+
     public boolean generatePalette = false;
+
+    public boolean generatePaletteAttributes = false;
 
     public abstract NamedDomainObjectContainer<Theme> getThemes();
 
@@ -14,6 +17,14 @@ public abstract class MaterialThemeBuilderExtension {
 
     public void setGeneratePalette(boolean generatePalette) {
         this.generatePalette = generatePalette;
+    }
+
+    public boolean isGeneratePaletteAttributes() {
+        return generatePaletteAttributes;
+    }
+
+    public void setGeneratePaletteAttributes(boolean generatePaletteAttributes) {
+        this.generatePaletteAttributes = generatePaletteAttributes;
     }
 
     public void themes(Action<NamedDomainObjectContainer<Theme>> container) {

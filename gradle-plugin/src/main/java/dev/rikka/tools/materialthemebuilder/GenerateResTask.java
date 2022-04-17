@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class GenerateResTask extends GenerateTask {
 
-    private static final int[] TONE_VALUES = new int[]{100, 99, 95, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0};
+    private static final int[] TONE_VALUES = new int[]{0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 99, 100};
 
     private final MaterialThemeBuilderExtension extension;
     private final File file;
@@ -58,12 +58,24 @@ public class GenerateResTask extends GenerateTask {
         os.printf("<item name=\"%s\">@color/%s</item>%n", name, value);
     }
 
+    private void attr(String name, String format) {
+        os.printf("<attr name=\"%s\" format=\"%s\" />%n", name, format);
+    }
+
     private void beginStyle(String name, String parentName) {
         os.printf("<style name=\"%s\" parent=\"%s\">%n", name, parentName);
     }
 
     private void endStyle() {
         os.println("</style>");
+    }
+
+    private void beginDeclareStyleable(String name) {
+        os.printf("<declare-styleable name=\"%s\">%n", name);
+    }
+
+    private void endDeclareStyleable() {
+        os.println("</declare-styleable>");
     }
 
     private void writeColorsForTheme(
@@ -330,9 +342,28 @@ public class GenerateResTask extends GenerateTask {
         writeStylesForTheme(nameLowerUnderScore, nameUpperCamel, lightThemeNameFormat, parentLightThemeName, darkThemeNameFormat, parentDarkThemeName);
     }
 
+    private void writePaletteAttributes() {
+        beginDeclareStyleable("MaterialColorTokens");
+        String format = "color|reference";
+        String[] palettes = new String[]{
+                "Primary", "Secondary", "Tertiary", "Error", "Neutral", "NeutralVariant"
+        };
+
+        for (String palette : palettes) {
+            for (int tone : TONE_VALUES) {
+                attr(String.format(Locale.ROOT, "palette%s%d", palette, tone), format);
+            }
+        }
+
+        endDeclareStyleable();
+    }
+
     public void write() {
         beginResource();
 
+        if (extension.isGeneratePaletteAttributes()) {
+            writePaletteAttributes();
+        }
         extension.getThemes().forEach(this::writeTheme);
 
         endResource();
