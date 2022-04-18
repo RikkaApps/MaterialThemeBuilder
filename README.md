@@ -77,5 +77,37 @@ Replace all the `<version>` below with the version shows here.
        // Generate "textColorOnXxx" attributes such as "textColorOnPrimary", "textColorOnPrimaryHighEmphasis"
        // and "textColorOnPrimaryMediumEmphasis"
        generateTextColors = false
+   
+       // List of extended colors
+       extendedColors {
+           // Name of the color
+           example {
+               color = "#000000"
+               // Harmonize generated color with primary color
+               harmonize = true
+           }
+       }
+   
+       // Package name of your application, used in generated class
+       packageName = "com.example"
    }
+   ```
+
+   Harmonize color with dynamic themes:
+   
+   ```kotlin
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        HarmonizedColors.applyToContextIfAvailable(
+            context,
+            HarmonizedColorsOptions.Builder()
+                .setColorAttributeToHarmonizeWith(R.attr.colorPrimary)
+                .setColorAttributes(
+                    HarmonizedColorAttributes.create(
+                        HarmonizedColorAttributes.createMaterialDefaults().attributes
+                            .plus(Harmonization.HARMONIZED_COLOR_ATTRIBUTES)
+                    )
+                )
+            !!.build()
+        )
+    }
    ```
