@@ -1,7 +1,10 @@
 package dev.rikka.tools.materialthemebuilder;
 
+import com.google.common.base.CaseFormat;
 import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectContainer;
+
+import java.util.Locale;
 
 public abstract class MaterialThemeBuilderExtension {
 
@@ -12,6 +15,8 @@ public abstract class MaterialThemeBuilderExtension {
     public boolean generateTextColors = false;
 
     public abstract NamedDomainObjectContainer<Theme> getThemes();
+
+    public abstract NamedDomainObjectContainer<ExtendedColor> getExtendedColors();
 
     public boolean isGeneratePalette() {
         return generatePalette;
@@ -39,6 +44,10 @@ public abstract class MaterialThemeBuilderExtension {
 
     public void themes(Action<NamedDomainObjectContainer<Theme>> container) {
         container.execute(getThemes());
+    }
+
+    public void extendedColors(Action<NamedDomainObjectContainer<ExtendedColor>> container) {
+        container.execute(getExtendedColors());
     }
 
     public static class Theme {
@@ -132,8 +141,54 @@ public abstract class MaterialThemeBuilderExtension {
         public void setDynamicColors(boolean dynamicColors) {
             isDynamicColors = dynamicColors;
         }
+    }
 
-        // TODO Extended colors
+    public static class ExtendedColor {
 
+        private final String name;
+        private String color;
+        private boolean harmonize;
+
+        public ExtendedColor(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getNameForAttribute() {
+            var nameIsUnderScore = name.contains("_");
+            if (nameIsUnderScore) {
+                return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name.toLowerCase(Locale.ROOT));
+            } else {
+                return Util.capitalize(name);
+            }
+        }
+
+        public String getNameForFile() {
+            var nameIsUnderScore = name.contains("_");
+            if (nameIsUnderScore) {
+                return name.toLowerCase(Locale.ROOT);
+            } else {
+                return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, Util.capitalize(name));
+            }
+        }
+
+        public String getColor() {
+            return color;
+        }
+
+        public void setColor(String color) {
+            this.color = color;
+        }
+
+        public boolean isHarmonize() {
+            return harmonize;
+        }
+
+        public void setHarmonize(boolean harmonize) {
+            this.harmonize = harmonize;
+        }
     }
 }

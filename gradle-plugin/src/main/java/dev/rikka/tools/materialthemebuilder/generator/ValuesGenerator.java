@@ -39,6 +39,10 @@ public abstract class ValuesGenerator extends XmlGenerator {
         os.printf("<item name=\"%s\">@color/%s</item>%n", name, value);
     }
 
+    protected void style2(String name, String value) {
+        os.printf("<item name=\"%s\">%s</item>%n", name, value);
+    }
+
     protected void attr(String name, String format) {
         os.printf("<attr name=\"%s\" format=\"%s\" />%n", name, format);
     }

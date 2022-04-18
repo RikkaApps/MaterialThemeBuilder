@@ -1,9 +1,11 @@
 package dev.rikka.tools.materialthemebuilder.generator;
 
+import blend.Blend;
 import com.google.common.base.CaseFormat;
 import dev.rikka.tools.materialthemebuilder.MaterialTheme;
 import dev.rikka.tools.materialthemebuilder.MaterialThemeBuilderExtension;
 import dev.rikka.tools.materialthemebuilder.Util;
+import hct.Hct;
 import palettes.CorePalette;
 import palettes.TonalPalette;
 
@@ -29,6 +31,7 @@ public class ValuesAllGenerator extends ValuesGenerator {
         if (extension.isGenerateTextColors()) {
             writeTextColorsAttributes();
         }
+        extension.getExtendedColors().forEach(this::writeExtendedColorsAttributes);
         extension.getThemes().forEach(this::writeTheme);
     }
 
@@ -63,6 +66,16 @@ public class ValuesAllGenerator extends ValuesGenerator {
             }
         }
 
+        endDeclareStyleable();
+    }
+
+    private void writeExtendedColorsAttributes(MaterialThemeBuilderExtension.ExtendedColor extendedColor) {
+        String name = extendedColor.getNameForAttribute();
+        beginDeclareStyleable("MaterialColor" + name);
+        for (MaterialTheme.Color color : MaterialTheme.COLORS) {
+            attr(color.getAttributeName(name), "color|reference");
+        }
+        attr("harmonize" + name, "boolean");
         endDeclareStyleable();
     }
 
@@ -194,6 +207,16 @@ public class ValuesAllGenerator extends ValuesGenerator {
         style("colorSurfaceInverse", String.format("md_theme_%s_light_inverseSurface", nameLowerUnderScore));
         style("colorPrimaryInverse", String.format("md_theme_%s_light_primaryInverse", nameLowerUnderScore));
 
+        // Extended colors
+        for (MaterialThemeBuilderExtension.ExtendedColor extendedColor : extension.getExtendedColors()) {
+            for (MaterialTheme.Color color : MaterialTheme.COLORS) {
+                style(
+                        color.getAttributeName(extendedColor.getNameForAttribute()),
+                        color.getFileName(nameLowerUnderScore, true, extendedColor.getNameForAttribute()));
+            }
+            style2("harmonize" + extendedColor.getNameForAttribute(), Boolean.toString(extendedColor.isHarmonize()));
+        }
+
         if (extension.isGeneratePalette()) {
             for (int tone : MaterialTheme.TONE_VALUES) {
                 style(String.format("palettePrimary%d", tone),
@@ -253,6 +276,16 @@ public class ValuesAllGenerator extends ValuesGenerator {
         style("colorSurfaceInverse", String.format("md_theme_%s_dark_inverseSurface", nameLowerUnderScore));
         style("colorPrimaryInverse", String.format("md_theme_%s_dark_primaryInverse", nameLowerUnderScore));
 
+        // Extended colors
+        for (MaterialThemeBuilderExtension.ExtendedColor extendedColor : extension.getExtendedColors()) {
+            for (MaterialTheme.Color color : MaterialTheme.COLORS) {
+                style(
+                        color.getAttributeName(extendedColor.getNameForAttribute()),
+                        color.getFileName(nameLowerUnderScore, false, extendedColor.getNameForAttribute()));
+            }
+            style2("harmonize" + extendedColor.getNameForAttribute(), Boolean.toString(extendedColor.isHarmonize()));
+        }
+
         if (extension.isGeneratePalette()) {
             for (int tone : MaterialTheme.TONE_VALUES) {
                 style(String.format("palettePrimary%d", tone),
@@ -284,6 +317,41 @@ public class ValuesAllGenerator extends ValuesGenerator {
             textColorStyles();
         }
         endStyle();
+    }
+
+    private void writeExtendedColors(
+            MaterialThemeBuilderExtension.ExtendedColor extendedColor,
+            String nameLowerUnderScore,
+            int primaryColorLight, int primaryColorDark) {
+
+        var extendedColorName = extendedColor.getNameForAttribute();
+        var extendedColorInt = Integer.parseInt(extendedColor.getColor().replaceFirst("#", ""), 16);
+
+        {
+            int extendedColorHarmonize = extendedColorInt;
+            if (extendedColor.isHarmonize()) {
+                extendedColorHarmonize = Blend.harmonize(extendedColorInt, primaryColorLight);
+            }
+            var hctColor = Hct.fromInt(extendedColorHarmonize);
+
+            for (MaterialTheme.Color color : MaterialTheme.COLORS) {
+                hctColor.setTone(color.getToneLight());
+                color(hctColor.toInt(), color.getFileName(nameLowerUnderScore, true, extendedColorName));
+            }
+        }
+
+        {
+            int extendedColorHarmonize = extendedColorInt;
+            if (extendedColor.isHarmonize()) {
+                extendedColorHarmonize = Blend.harmonize(extendedColorInt, primaryColorDark);
+            }
+            var hctColor = Hct.fromInt(extendedColorHarmonize);
+
+            for (MaterialTheme.Color color : MaterialTheme.COLORS) {
+                hctColor.setTone(color.getToneDark());
+                color(hctColor.toInt(), color.getFileName(nameLowerUnderScore, false, extendedColorName));
+            }
+        }
     }
 
     private void writeTheme(MaterialThemeBuilderExtension.Theme theme) {
@@ -342,6 +410,10 @@ public class ValuesAllGenerator extends ValuesGenerator {
         }
 
         writeColorsForTheme(nameLowerUnderScore, primaryPalette, secondaryPalette, tertiaryPalette, errorPalette, neutralPalette, neutralVariantPalette);
+
+        for (MaterialThemeBuilderExtension.ExtendedColor extendedColor : extension.getExtendedColors()) {
+            writeExtendedColors(extendedColor, nameLowerUnderScore, primaryPalette.tone(40), primaryPalette.tone(70));
+        }
         writeStylesForTheme(nameLowerUnderScore, nameUpperCamel, lightThemeNameFormat, parentLightThemeName, darkThemeNameFormat, parentDarkThemeName);
     }
 }

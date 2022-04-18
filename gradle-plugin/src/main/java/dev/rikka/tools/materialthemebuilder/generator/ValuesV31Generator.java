@@ -25,6 +25,7 @@ public class ValuesV31Generator extends ValuesGenerator {
     }
 
     private void writeStylesForTheme(
+            String nameLowerUnderScore,
             String nameUpperCamel,
             String lightThemeNameFormat, String parentLightThemeName,
             String darkThemeNameFormat, String parentDarkThemeName) {
@@ -136,6 +137,15 @@ public class ValuesV31Generator extends ValuesGenerator {
                 "<item name=\"android:textColorHighlightInverse\">@color/m3_dynamic_dark_highlighted_text</item>\n" +
                 "<item name=\"android:textColorAlertDialogListItem\">@color/m3_dynamic_default_color_primary_text</item>\n");
 
+        // Extended colors
+        for (MaterialThemeBuilderExtension.ExtendedColor extendedColor : extension.getExtendedColors()) {
+            for (MaterialTheme.Color color : MaterialTheme.COLORS) {
+                style(
+                        color.getAttributeName(extendedColor.getNameForAttribute()),
+                        color.getFileName(nameLowerUnderScore, true, extendedColor.getNameForAttribute()));
+            }
+            style2("harmonize" + extendedColor.getNameForAttribute(), Boolean.toString(extendedColor.isHarmonize()));
+        }
         if (extension.isGeneratePalette()) {
             print(s);
         }
@@ -184,6 +194,16 @@ public class ValuesV31Generator extends ValuesGenerator {
                 "<item name=\"android:textColorHighlight\">@color/m3_dynamic_dark_highlighted_text</item>\n" +
                 "<item name=\"android:textColorHighlightInverse\">@color/m3_dynamic_highlighted_text</item>\n" +
                 "<item name=\"android:textColorAlertDialogListItem\">@color/m3_dynamic_dark_default_color_primary_text</item>\n");
+
+        // Extended colors
+        for (MaterialThemeBuilderExtension.ExtendedColor extendedColor : extension.getExtendedColors()) {
+            for (MaterialTheme.Color color : MaterialTheme.COLORS) {
+                style(
+                        color.getAttributeName(extendedColor.getNameForAttribute()),
+                        color.getFileName(nameLowerUnderScore, false, extendedColor.getNameForAttribute()));
+            }
+            style2("harmonize" + extendedColor.getNameForAttribute(), Boolean.toString(extendedColor.isHarmonize()));
+        }
         if (extension.isGeneratePalette()) {
             print(s);
         }
@@ -206,14 +226,16 @@ public class ValuesV31Generator extends ValuesGenerator {
         var parentDarkThemeName = Optional.ofNullable(theme.getDarkThemeParent()).orElse("");
 
         String nameUpperCamel;
+        String nameLowerUnderScore;
         var nameIsUnderScore = name.contains("_");
         if (nameIsUnderScore) {
             name = name.toLowerCase(Locale.ROOT);
             nameUpperCamel = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name);
+            nameLowerUnderScore = name;
         } else {
             nameUpperCamel = name;
+            nameLowerUnderScore = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name);
         }
-
-        writeStylesForTheme(nameUpperCamel, lightThemeNameFormat, parentLightThemeName, darkThemeNameFormat, parentDarkThemeName);
+        writeStylesForTheme(nameLowerUnderScore, nameUpperCamel, lightThemeNameFormat, parentLightThemeName, darkThemeNameFormat, parentDarkThemeName);
     }
 }
