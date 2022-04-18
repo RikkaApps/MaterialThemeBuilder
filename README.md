@@ -65,19 +65,6 @@ Replace all the `<version>` below with the version shows here.
            }
        }
    
-       // Add Material Design 3 color tokens (such as palettePrimary100) in generated theme
-       // rikka.material:material >= 2.0.0 provides such attributes
-       // Enable this if your are using rikka.material:material
-       generatePalette = false
-       
-       // Generate Material Design 3 color tokens attributes (such as palettePrimary100)
-       // When necessary, you can use this if your are not using rikka.material:material
-       generatePaletteAttributes = false
-       
-       // Generate "textColorOnXxx" attributes such as "textColorOnPrimary", "textColorOnPrimaryHighEmphasis"
-       // and "textColorOnPrimaryMediumEmphasis"
-       generateTextColors = false
-   
        // List of extended colors
        extendedColors {
            // Name of the color
@@ -90,6 +77,21 @@ Replace all the `<version>` below with the version shows here.
    
        // Package name of your application, used in generated class
        packageName = "com.example"
+   
+       // Optional parts:
+  
+       // Add Material Design 3 color tokens (such as palettePrimary100) in generated theme
+       // rikka.material:material >= 2.0.0 provides such attributes
+       // Enable this if your are using rikka.material:material
+       generatePalette = false
+       
+       // Generate Material Design 3 color tokens attributes (such as palettePrimary100)
+       // When necessary, you can use this if your are not using rikka.material:material
+       generatePaletteAttributes = false
+       
+       // Generate "textColorOnXxx" attributes such as "textColorOnPrimary", "textColorOnPrimaryHighEmphasis"
+       // and "textColorOnPrimaryMediumEmphasis"
+       generateTextColors = false
    }
    ```
 
