@@ -15,22 +15,25 @@ public class GenerateJavaTask extends DefaultTask {
     private static final String CLASSNAME = "Harmonization";
 
     private final MaterialThemeBuilderExtension extension;
-    private final String packageName;
     private final File dir;
     private final File file;
 
     @Inject
     public GenerateJavaTask(MaterialThemeBuilderExtension extension, File dir) {
         this.extension = extension;
-        this.packageName = extension.getPackageName();
         this.dir = dir;
         this.file = new File(dir, String.format("%s.java",
-                String.join("/", (packageName + "." + CLASSNAME).split("\\."))));
+                String.join("/", (extension.getPackageName() + "." + CLASSNAME).split("\\."))));
     }
 
     @TaskAction
     public void generate() throws IOException {
         Util.clearDir(dir);
+
+        if (extension.getPackageName() == null) {
+            return;
+        }
+
         Util.createFile(file);
 
         var os = new PrintStream(file);
@@ -59,7 +62,7 @@ public class GenerateJavaTask extends DefaultTask {
         }
 
         os.printf(content,
-                packageName,
+                extension.getPackageName(),
                 CLASSNAME,
                 String.join(", ", attrs.toArray(new String[0])));
     }
