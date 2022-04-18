@@ -14,6 +14,8 @@ public abstract class MaterialThemeBuilderExtension {
 
     public boolean generateTextColors = false;
 
+    public String packageName = null;
+
     public abstract NamedDomainObjectContainer<Theme> getThemes();
 
     public abstract NamedDomainObjectContainer<ExtendedColor> getExtendedColors();
@@ -40,6 +42,14 @@ public abstract class MaterialThemeBuilderExtension {
 
     public void setGenerateTextColors(boolean generateTextColors) {
         this.generateTextColors = generateTextColors;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
     public void themes(Action<NamedDomainObjectContainer<Theme>> container) {

@@ -4,8 +4,6 @@ import com.google.common.base.CaseFormat;
 import dev.rikka.tools.materialthemebuilder.MaterialTheme;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
 
 public abstract class ValuesGenerator extends XmlGenerator {
 
@@ -35,11 +33,11 @@ public abstract class ValuesGenerator extends XmlGenerator {
         os.printf("<color name=\"%s\">#%06X</color>%n", name, color);
     }
 
-    protected void style(String name, String value) {
+    protected void styleColorRef(String name, String value) {
         os.printf("<item name=\"%s\">@color/%s</item>%n", name, value);
     }
 
-    protected void style2(String name, String value) {
+    protected void style(String name, String value) {
         os.printf("<item name=\"%s\">%s</item>%n", name, value);
     }
 
@@ -75,7 +73,7 @@ public abstract class ValuesGenerator extends XmlGenerator {
                         + emphasis
                         + ("".equals(emphasis) ? "" : "Emphasis");
                 String value = MaterialTheme.getColorStateListFilename(textColor, emphasis);
-                style(name, value);
+                styleColorRef(name, value);
             }
         }
     }

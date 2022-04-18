@@ -8,6 +8,7 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
+import org.gradle.api.tasks.SourceTask;
 
 import java.io.File;
 
@@ -20,16 +21,32 @@ public class MaterialThemeBuilderPlugin implements Plugin<Project> {
         var variantName = variant.getName();
         var variantNameCapitalized = Util.capitalize(variantName);
 
-        var resDir = new File(project.getBuildDir(),
-                String.format("generated/res/materialThemeBuilder/%s", variantName));
+        {
+            var dir = new File(project.getBuildDir(),
+                    String.format("generated/materialThemeBuilder/%s/res", variantName));
+            var taskName = String.format("generate%sMaterialThemeBuilderRes", variantNameCapitalized);
+            var task = project.getTasks().register(taskName,
+                    GenerateResTask.class, extension, dir);
 
-        var taskName = String.format("generate%sMaterialThemeBuilderRes", variantNameCapitalized);
+            variant.registerGeneratedResFolders(
+                    project.files(dir).builtBy(task));
+        }
 
-        var generateResTask = project.getTasks().register(taskName,
-                GenerateResTask.class, extension, resDir);
+        {
+            var dir = new File(project.getBuildDir(),
+                    String.format("generated/materialThemeBuilder/%s/java", variantName));
+            var taskName = String.format("generate%sMaterialThemeBuilderSource", variantNameCapitalized);
+            var task = project.getTasks().register(taskName,
+                    GenerateJavaTask.class, extension, dir);
 
-        variant.registerGeneratedResFolders(
-                project.files(resDir).builtBy(generateResTask));
+            variant.registerJavaGeneratingTask(task, dir);
+
+            var kotlinCompileTask = (SourceTask) project.getTasks().findByName("compile" + variantNameCapitalized + "Kotlin");
+            if (kotlinCompileTask != null) {
+                kotlinCompileTask.dependsOn(task);
+                kotlinCompileTask.source(task);
+            }
+        }
     }
 
     @Override

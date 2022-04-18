@@ -46,7 +46,7 @@ public class GenerateResTask extends DefaultTask {
 
     @TaskAction
     public void generate() throws IOException {
-        clear();
+        Util.clearDir(dir);
         for (ColorStateListGenerator colorStateListGenerator : colorStateListGenerators) {
             colorStateListGenerator.generate();
         }
@@ -54,23 +54,6 @@ public class GenerateResTask extends DefaultTask {
         valuesV31Generator.generate();
     }
 
-    private void clear() {
-        try {
-            Files.walkFileTree(dir.toPath(), new SimpleFileVisitor<>() {
-                @Override
-                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                    Files.delete(dir);
-                    return FileVisitResult.CONTINUE;
-                }
 
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    Files.delete(file);
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-        } catch (Throwable ignored) {
-        }
-    }
 }
 

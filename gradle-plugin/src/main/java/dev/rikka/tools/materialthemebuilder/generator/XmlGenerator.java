@@ -1,5 +1,7 @@
 package dev.rikka.tools.materialthemebuilder.generator;
 
+import dev.rikka.tools.materialthemebuilder.Util;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -20,7 +22,7 @@ public abstract class XmlGenerator {
     protected abstract void endGenerate();
 
     public final void generate() throws IOException {
-        createFile(file);
+        Util.createFile(file);
         os = new PrintStream(file);
         header();
         startGenerate();
@@ -28,19 +30,6 @@ public abstract class XmlGenerator {
         endGenerate();
         os.flush();
         os.close();
-    }
-
-    private void createFile(File file) throws IOException {
-        if (!file.exists()) {
-            if (!file.getParentFile().exists()) {
-                if (!file.getParentFile().mkdirs()) {
-                    throw new IOException("Failed to create " + file.getParentFile());
-                }
-            }
-            if (!file.createNewFile()) {
-                throw new IOException("Failed to create " + file);
-            }
-        }
     }
 
     protected final void header() {
