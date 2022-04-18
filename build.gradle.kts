@@ -4,7 +4,7 @@ task("clean", type = Delete::class) {
 
 subprojects {
     group = "dev.rikka.tools.materialthemebuilder"
-    version = "1.3.0"
+    version = "1.3.1"
 
     plugins.withId("java") {
         println("- Configuring `java`")
