@@ -100,8 +100,8 @@ public class ValuesAllGenerator extends ValuesGenerator {
         color(tertiary.tone(10), String.format("md_theme_%s_light_onTertiaryContainer", name));
 
         color(error.tone(40), String.format("md_theme_%s_light_error", name));
-        color(error.tone(100), String.format("md_theme_%s_light_errorContainer", name));
-        color(error.tone(90), String.format("md_theme_%s_light_onError", name));
+        color(error.tone(100), String.format("md_theme_%s_light_onError", name));
+        color(error.tone(90), String.format("md_theme_%s_light_errorContainer", name));
         color(error.tone(10), String.format("md_theme_%s_light_onErrorContainer", name));
 
         color(neutral.tone(99), String.format("md_theme_%s_light_background", name));
@@ -134,8 +134,8 @@ public class ValuesAllGenerator extends ValuesGenerator {
         color(tertiary.tone(90), String.format("md_theme_%s_dark_onTertiaryContainer", name));
 
         color(error.tone(80), String.format("md_theme_%s_dark_error", name));
-        color(error.tone(20), String.format("md_theme_%s_dark_errorContainer", name));
-        color(error.tone(30), String.format("md_theme_%s_dark_onError", name));
+        color(error.tone(20), String.format("md_theme_%s_dark_onError", name));
+        color(error.tone(30), String.format("md_theme_%s_dark_errorContainer", name));
         color(error.tone(90), String.format("md_theme_%s_dark_onErrorContainer", name));
 
         color(neutral.tone(10), String.format("md_theme_%s_dark_background", name));
