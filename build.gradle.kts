@@ -38,11 +38,11 @@ subprojects {
                         pom {
                             name.set("MaterialThemeBuilder")
                             description.set("MaterialThemeBuilder")
-                            url.set("https://github.com/RikkaApps/MaterialThemeBuilderPlugin")
+                            url.set("https://github.com/RikkaApps/MaterialThemeBuilder/")
                             licenses {
                                 license {
                                     name.set("MIT License")
-                                    url.set("https://github.com/RikkaApps/MaterialThemeBuilderPlugin/blob/main/LICENSE")
+                                    url.set("https://raw.githubusercontent.com/RikkaApps/MaterialThemeBuilder/master/LICENSE")
                                 }
                             }
                             developers {
@@ -51,8 +51,8 @@ subprojects {
                                 }
                             }
                             scm {
-                                connection.set("scm:git:https://github.com/RikkaApps/MaterialThemeBuilderPlugin.git")
-                                url.set("https://github.com/RikkaApps/MaterialThemeBuilderPlugin")
+                                connection.set("scm:git:https://github.com/RikkaApps/MaterialThemeBuilder.git")
+                                url.set("https://github.com/RikkaApps/MaterialThemeBuilder/")
                             }
                         }
                     }
