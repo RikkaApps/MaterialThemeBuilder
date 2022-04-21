@@ -24,7 +24,7 @@ gradlePlugin {
         create("MaterialThemeBuilder") {
             id = project.group.toString()
             displayName = "MaterialThemeBuilder"
-            description = "A gradle plugin that generates Material Design 3 theme for Android projects."
+            description = "A gradle plugin that generates Material Design 3 themes for Android projects."
             implementationClass = "$id.MaterialThemeBuilderPlugin"
         }
     }

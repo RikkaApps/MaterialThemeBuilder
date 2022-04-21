@@ -37,7 +37,7 @@ subprojects {
 
                         pom {
                             name.set("MaterialThemeBuilder")
-                            description.set("MaterialThemeBuilder")
+                            description.set("A gradle plugin that generates Material Design 3 themes for Android projects.")
                             url.set("https://github.com/RikkaApps/MaterialThemeBuilder/")
                             licenses {
                                 license {
