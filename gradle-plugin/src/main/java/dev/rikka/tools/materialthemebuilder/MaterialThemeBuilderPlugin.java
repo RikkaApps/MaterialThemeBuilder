@@ -40,12 +40,6 @@ public class MaterialThemeBuilderPlugin implements Plugin<Project> {
                     GenerateJavaTask.class, extension, dir);
 
             variant.registerJavaGeneratingTask(task, dir);
-
-            var kotlinCompileTask = (SourceTask) project.getTasks().findByName("compile" + variantNameCapitalized + "Kotlin");
-            if (kotlinCompileTask != null) {
-                kotlinCompileTask.dependsOn(task);
-                kotlinCompileTask.source(task);
-            }
         }
     }
 
