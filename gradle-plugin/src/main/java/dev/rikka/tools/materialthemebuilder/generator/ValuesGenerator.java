@@ -77,4 +77,9 @@ public abstract class ValuesGenerator extends XmlGenerator {
             }
         }
     }
+
+    protected void floatDimen(String name, String value) {
+        os.printf("<item format=\"float\" name=\"%s\" type=\"dimen\">%s</item>%n", name, value);
+    }
+
 }

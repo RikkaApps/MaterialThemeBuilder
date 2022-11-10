@@ -51,6 +51,13 @@ public class ValuesAllGenerator extends ValuesGenerator {
         }
 
         endDeclareStyleable();
+
+        floatDimen("m3_emphasis_disabled", "0.38");
+        floatDimen("m3_emphasis_disabled_background", "0.12");
+        floatDimen("m3_emphasis_high", "0.87");
+        floatDimen("m3_emphasis_high_disabled", "0.33");
+        floatDimen("m3_emphasis_medium", "0.6");
+        floatDimen("m3_emphasis_medium_disabled", "0.23");
     }
 
     private void writePaletteAttributes() {
