@@ -116,6 +116,11 @@ public class ValuesV31Generator extends ValuesGenerator {
                 "<item name=\"colorSurface\">@color/m3_sys_color_dynamic_light_surface</item>\n" +
                 "<item name=\"colorOnSurface\">@color/m3_sys_color_dynamic_light_on_surface</item>\n" +
                 "<item name=\"colorSurfaceVariant\">@color/m3_sys_color_dynamic_light_surface_variant</item>\n" +
+                "<item name=\"colorSurfaceContainer\">@color/m3_sys_color_dynamic_light_container</item>\n" +
+                "<item name=\"colorSurfaceContainerLow\">@color/m3_sys_color_dynamic_light_containerLow</item>\n" +
+                "<item name=\"colorSurfaceContainerLowest\">@color/m3_sys_color_dynamic_light_containerLowest</item>\n" +
+                "<item name=\"colorSurfaceContainerHigh\">@color/m3_sys_color_dynamic_light_surface_containerHigh</item>\n" +
+                "<item name=\"colorSurfaceContainerHighest\">@color/m3_sys_color_dynamic_light_surface_containerHighest</item>\n" +
                 "<item name=\"colorOnSurfaceVariant\">@color/m3_sys_color_dynamic_light_on_surface_variant</item>\n" +
                 "<item name=\"colorSurfaceInverse\">@color/m3_sys_color_dynamic_light_inverse_surface</item>\n" +
                 "<item name=\"colorOnSurfaceInverse\">@color/m3_sys_color_dynamic_light_inverse_on_surface</item>\n" +
@@ -174,6 +179,11 @@ public class ValuesV31Generator extends ValuesGenerator {
                 "<item name=\"colorSurface\">@color/m3_sys_color_dynamic_dark_surface</item>\n" +
                 "<item name=\"colorOnSurface\">@color/m3_sys_color_dynamic_dark_on_surface</item>\n" +
                 "<item name=\"colorSurfaceVariant\">@color/m3_sys_color_dynamic_dark_surface_variant</item>\n" +
+                "<item name=\"colorSurfaceContainer\">@color/m3_sys_color_dynamic_dark_container</item>\n" +
+                "<item name=\"colorSurfaceContainerLow\">@color/m3_sys_color_dynamic_dark_containerLow</item>\n" +
+                "<item name=\"colorSurfaceContainerLowest\">@color/m3_sys_color_dynamic_dark_containerLowest</item>\n" +
+                "<item name=\"colorSurfaceContainerHigh\">@color/m3_sys_color_dynamic_dark_containerHigh</item>\n" +
+                "<item name=\"colorSurfaceContainerHighest\">@color/m3_sys_color_dynamic_dark_surface_containerHighest</item>\n" +
                 "<item name=\"colorOnSurfaceVariant\">@color/m3_sys_color_dynamic_dark_on_surface_variant</item>\n" +
                 "<item name=\"colorSurfaceInverse\">@color/m3_sys_color_dynamic_dark_inverse_surface</item>\n" +
                 "<item name=\"colorOnSurfaceInverse\">@color/m3_sys_color_dynamic_dark_inverse_on_surface</item>\n" +
