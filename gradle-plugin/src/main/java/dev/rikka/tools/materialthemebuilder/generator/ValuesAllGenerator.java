@@ -111,10 +111,16 @@ public class ValuesAllGenerator extends ValuesGenerator {
         color(error.tone(90), String.format("md_theme_%s_light_errorContainer", name));
         color(error.tone(10), String.format("md_theme_%s_light_onErrorContainer", name));
 
-        color(neutral.tone(99), String.format("md_theme_%s_light_background", name));
+        color(neutral.tone(98), String.format("md_theme_%s_light_background", name));
         color(neutral.tone(10), String.format("md_theme_%s_light_onBackground", name));
-        color(neutral.tone(99), String.format("md_theme_%s_light_surface", name));
+        color(neutral.tone(98), String.format("md_theme_%s_light_surface", name));
         color(neutral.tone(10), String.format("md_theme_%s_light_onSurface", name));
+
+        color(neutral.tone(94), String.format("md_theme_%s_light_container", name));
+        color(neutral.tone(96), String.format("md_theme_%s_light_containerLow", name));
+        color(neutral.tone(100), String.format("md_theme_%s_light_containerLowest", name));
+        color(neutral.tone(92), String.format("md_theme_%s_light_containerHigh", name));
+        color(neutral.tone(90), String.format("md_theme_%s_light_containerHighest", name));
 
         color(neutralVariant.tone(90), String.format("md_theme_%s_light_surfaceVariant", name));
         color(neutralVariant.tone(30), String.format("md_theme_%s_light_onSurfaceVariant", name));
@@ -145,16 +151,22 @@ public class ValuesAllGenerator extends ValuesGenerator {
         color(error.tone(30), String.format("md_theme_%s_dark_errorContainer", name));
         color(error.tone(90), String.format("md_theme_%s_dark_onErrorContainer", name));
 
-        color(neutral.tone(10), String.format("md_theme_%s_dark_background", name));
+        color(neutral.tone(6), String.format("md_theme_%s_dark_background", name));
         color(neutral.tone(90), String.format("md_theme_%s_dark_onBackground", name));
-        color(neutral.tone(10), String.format("md_theme_%s_dark_surface", name));
+        color(neutral.tone(6), String.format("md_theme_%s_dark_surface", name));
         color(neutral.tone(80), String.format("md_theme_%s_dark_onSurface", name));
+
+        color(neutral.tone(12), String.format("md_theme_%s_dark_container", name));
+        color(neutral.tone(10), String.format("md_theme_%s_dark_containerLow", name));
+        color(neutral.tone(4), String.format("md_theme_%s_dark_containerLowest", name));
+        color(neutral.tone(17), String.format("md_theme_%s_dark_containerHigh", name));
+        color(neutral.tone(22), String.format("md_theme_%s_dark_containerHighest", name));
 
         color(neutralVariant.tone(30), String.format("md_theme_%s_dark_surfaceVariant", name));
         color(neutralVariant.tone(80), String.format("md_theme_%s_dark_onSurfaceVariant", name));
         color(neutralVariant.tone(60), String.format("md_theme_%s_dark_outline", name));
 
-        color(neutral.tone(40), String.format("md_theme_%s_dark_inverseOnSurface", name));
+        color(neutral.tone(20), String.format("md_theme_%s_dark_inverseOnSurface", name));
         color(neutral.tone(90), String.format("md_theme_%s_dark_inverseSurface", name));
         color(primary.tone(40), String.format("md_theme_%s_dark_primaryInverse", name));
 
@@ -206,6 +218,11 @@ public class ValuesAllGenerator extends ValuesGenerator {
         styleColorRef("android:colorBackground", String.format("md_theme_%s_light_surface", nameLowerUnderScore));
         styleColorRef("colorOnBackground", String.format("md_theme_%s_light_onBackground", nameLowerUnderScore));
         styleColorRef("colorSurface", String.format("md_theme_%s_light_surface", nameLowerUnderScore));
+        styleColorRef("colorSurfaceContainer", String.format("md_theme_%s_light_container", nameLowerUnderScore));
+        styleColorRef("colorSurfaceContainerLow", String.format("md_theme_%s_light_containerLow", nameLowerUnderScore));
+        styleColorRef("colorSurfaceContainerLowest", String.format("md_theme_%s_light_containerLowest", nameLowerUnderScore));
+        styleColorRef("colorSurfaceContainerHigh", String.format("md_theme_%s_light_containerHigh", nameLowerUnderScore));
+        styleColorRef("colorSurfaceContainerHighest", String.format("md_theme_%s_light_containerHighest", nameLowerUnderScore));
         styleColorRef("colorOnSurface", String.format("md_theme_%s_light_onSurface", nameLowerUnderScore));
         styleColorRef("colorSurfaceVariant", String.format("md_theme_%s_light_surfaceVariant", nameLowerUnderScore));
         styleColorRef("colorOnSurfaceVariant", String.format("md_theme_%s_light_onSurfaceVariant", nameLowerUnderScore));
@@ -275,6 +292,11 @@ public class ValuesAllGenerator extends ValuesGenerator {
         styleColorRef("android:colorBackground", String.format("md_theme_%s_dark_surface", nameLowerUnderScore));
         styleColorRef("colorOnBackground", String.format("md_theme_%s_dark_onBackground", nameLowerUnderScore));
         styleColorRef("colorSurface", String.format("md_theme_%s_dark_surface", nameLowerUnderScore));
+        styleColorRef("colorSurfaceContainer", String.format("md_theme_%s_dark_container", nameLowerUnderScore));
+        styleColorRef("colorSurfaceContainerLow", String.format("md_theme_%s_dark_containerLow", nameLowerUnderScore));
+        styleColorRef("colorSurfaceContainerLowest", String.format("md_theme_%s_dark_containerLowest", nameLowerUnderScore));
+        styleColorRef("colorSurfaceContainerHigh", String.format("md_theme_%s_dark_containerHigh", nameLowerUnderScore));
+        styleColorRef("colorSurfaceContainerHighest", String.format("md_theme_%s_dark_containerHighest", nameLowerUnderScore));
         styleColorRef("colorOnSurface", String.format("md_theme_%s_dark_onSurface", nameLowerUnderScore));
         styleColorRef("colorSurfaceVariant", String.format("md_theme_%s_dark_surfaceVariant", nameLowerUnderScore));
         styleColorRef("colorOnSurfaceVariant", String.format("md_theme_%s_dark_onSurfaceVariant", nameLowerUnderScore));
