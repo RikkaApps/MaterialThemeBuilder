@@ -1,39 +1,41 @@
 package dev.rikka.tools.materialthemebuilder;
 
 import org.gradle.api.DefaultTask;
+import org.gradle.api.file.DirectoryProperty;
+import org.gradle.api.provider.ListProperty;
+import org.gradle.api.provider.Property;
+import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Optional;
+import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 
-import javax.inject.Inject;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 
-public class GenerateJavaTask extends DefaultTask {
+public abstract class GenerateJavaTask extends DefaultTask {
 
     private static final String CLASSNAME = "Harmonization";
 
-    private final MaterialThemeBuilderExtension extension;
-    private final File dir;
-    private final File file;
+    @Input
+    @Optional
+    public abstract Property<String> getPackageName();
 
-    @Inject
-    public GenerateJavaTask(MaterialThemeBuilderExtension extension, File dir) {
-        this.extension = extension;
-        this.dir = dir;
-        this.file = new File(dir, String.format("%s.java",
-                String.join("/", (extension.getPackageName() + "." + CLASSNAME).split("\\."))));
-    }
+    @Input
+    public abstract ListProperty<String> getHarmonizedAttrs();
+
+    @OutputDirectory
+    public abstract DirectoryProperty getOutputDir();
 
     @TaskAction
     public void generate() throws IOException {
-        Util.clearDir(dir);
+        Util.clearDir(getOutputDir().get().getAsFile());
 
-        if (extension.getPackageName() == null) {
+        if (!getPackageName().isPresent()) {
             return;
         }
 
+        var file = getOutputDir().file(String.format("%s.java",
+                String.join("/", (getPackageName().get() + "." + CLASSNAME).split("\\.")))).get().getAsFile();
         Util.createFile(file);
 
         var os = new PrintStream(file);
@@ -42,28 +44,18 @@ public class GenerateJavaTask extends DefaultTask {
         os.close();
     }
 
-    public void write(PrintStream os) {
-        String content = "package %s;\n" +
-                "\n" +
-                "public final class %s {\n" +
-                "    public static final int[] HARMONIZED_COLOR_ATTRIBUTES = {%s};\n" +
-                "}\n";
-
-        List<String> attrs = new ArrayList<>();
-
-        for (MaterialThemeBuilderExtension.ExtendedColor extendedColor : extension.getExtendedColors()) {
-            if (!extendedColor.isHarmonize()) {
-                continue;
-            }
-
-            for (MaterialTheme.Color color : MaterialTheme.COLORS) {
-                attrs.add("R.attr." + color.getAttributeName(extendedColor.getNameForAttribute()));
-            }
-        }
+    private void write(PrintStream os) {
+        String content = """
+                package %s;
+                
+                public final class %s {
+                    public static final int[] HARMONIZED_COLOR_ATTRIBUTES = {%s};
+                }
+                """;
 
         os.printf(content,
-                extension.getPackageName(),
+                getPackageName().get(),
                 CLASSNAME,
-                String.join(", ", attrs.toArray(new String[0])));
+                String.join(", ", getHarmonizedAttrs().get().toArray(new String[0])));
     }
 }

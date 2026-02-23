@@ -8,8 +8,8 @@ plugins {
 dependencies {
     compileOnly(gradleApi())
     compileOnly(libs.android.gradle)
-    implementation("com.google.guava:guava:33.3.1-jre")
-    compileOnly("androidx.annotation:annotation:1.8.2")
+    implementation("com.google.guava:guava:33.5.0-jre")
+    compileOnly("androidx.annotation:annotation:1.9.1")
 }
 
 sourceSets {
