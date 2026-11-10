@@ -4,6 +4,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
+import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputDirectory;
@@ -12,6 +13,7 @@ import org.gradle.api.tasks.TaskAction;
 import java.io.IOException;
 import java.io.PrintStream;
 
+@CacheableTask
 public abstract class GenerateJavaTask extends DefaultTask {
 
     private static final String CLASSNAME = "Harmonization";

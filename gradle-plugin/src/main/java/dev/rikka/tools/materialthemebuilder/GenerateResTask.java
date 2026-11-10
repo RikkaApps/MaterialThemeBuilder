@@ -7,12 +7,14 @@ import dev.rikka.tools.materialthemebuilder.generator.ValuesV31Generator;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.provider.Property;
+import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.IOException;
 
+@CacheableTask
 public abstract class GenerateResTask extends DefaultTask {
     @Internal
     public abstract Property<MaterialThemeBuilderExtension> getExtension();
