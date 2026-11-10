@@ -1,25 +1,38 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":gradle-plugin")
-
 pluginManagement {
     repositories {
+        google {
+            content {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
         mavenCentral()
-        google()
         gradlePluginPortal()
     }
 }
 
 dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
     repositories {
+        google {
+            content {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
         mavenCentral()
-        google()
     }
     versionCatalogs {
         create("libs") {
-            val agp = "9.0.1"
-
-            library("android-gradle", "com.android.tools.build", "gradle").version(agp)
+            library("android-gradle", "com.android.tools.build", "gradle-api").version("9.5.0")
         }
     }
 }
+
+include(":gradle-plugin")
+
+rootProject.name = "MaterialThemeBuilder"
